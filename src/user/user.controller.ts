@@ -6,16 +6,21 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 
 import { Prisma } from 'generated/prisma';
+import { AuthGuard, Public } from 'src/auth/auth.guard';
 import { UsersService } from './user.service';
 
+
+@UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UsersService) { }
 
   @Post()
+  @Public()
   create(@Body() createUserDto: Prisma.UserCreateInput) {
     return this.userService.create(createUserDto);
   }

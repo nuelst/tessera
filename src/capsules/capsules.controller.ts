@@ -1,15 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import { Prisma } from 'generated/prisma';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { CapsulesService } from './capsules.service';
-import { CreateCapsuleDto } from './dto/create-capsule.dto';
 import { UpdateCapsuleDto } from './dto/update-capsule.dto';
 
+
+
+@UseGuards(AuthGuard)
 @Controller('capsules')
 export class CapsulesController {
-  constructor(private readonly capsulesService: CapsulesService) {}
+  constructor(private readonly capsulesService: CapsulesService) { }
 
   @Post()
-  create(@Body() createCapsuleDto: CreateCapsuleDto) {
-    return this.capsulesService.create(createCapsuleDto);
+  create(@Body() createCapsuleDto: Prisma.CapsuleCreateInput, @Request() req) {
+    const { sub: userId } = req.sub;
+    return this.capsulesService.create(createCapsuleDto, userId);
   }
 
   @Get()
@@ -17,18 +22,28 @@ export class CapsulesController {
     return this.capsulesService.findAll();
   }
 
+  @Get('me')
+  findAllCapsulesByUser(@Request() req) {
+    const { sub: userId } = req.sub;
+
+    return this.capsulesService.findAllCapsulesByUser(userId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.capsulesService.findOne(+id);
+    return this.capsulesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCapsuleDto: UpdateCapsuleDto) {
-    return this.capsulesService.update(+id, updateCapsuleDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateCapsuleDto: UpdateCapsuleDto
+  ) {
+    return this.capsulesService.update(id, updateCapsuleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.capsulesService.remove(+id);
+    return this.capsulesService.remove(id);
   }
 }

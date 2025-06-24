@@ -1,30 +1,44 @@
 @baseUrl = http://localhost:3000
-@token = add token
-@userId = b5710bd2-d5e4-4a92-9790-2725c074354b
-
-### LISTAR TODOS OS USUÁRIOS (GET)
-GET {{baseUrl}}/user
+@token = {{authenticate.response.body.access_token}}
+@userId = {{createUser.response.body.id}}
+@capsuleId = {{createCapsule.response.body.id}}
 
 ###
+### 🔐 LOGIN DO USUÁRIO
+# @name authenticate
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
 
-### CRIAR NOVO USUÁRIO (POST)
+{
+  "email": "other@example.com",
+  "password": "Pw123452!"
+}
+
+###
+### 👤 CRIAR NOVO USUÁRIO
+# @name createUser
 POST {{baseUrl}}/user
 Content-Type: application/json
 
 {
   "name": "John Doe",
-  "email": "user_1@example.com",
+  "email": "other@example.com",
   "password": "Pw123452!"
 }
 
 ###
+### 👤 LISTAR TODOS OS USUÁRIOS
+# @name listUsers
+GET {{baseUrl}}/user
 
-### BUSCAR USUÁRIO POR ID (GET)
+###
+### 👤 BUSCAR USUÁRIO POR ID
+# @name getUserById
 GET {{baseUrl}}/user/{{userId}}
 
 ###
-
-### ATUALIZAR USUÁRIO (PATCH)
+### 👤 ATUALIZAR USUÁRIO
+# @name updateUser
 PATCH {{baseUrl}}/user/{{userId}}
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -34,19 +48,58 @@ Authorization: Bearer {{token}}
 }
 
 ###
-
-### DELETAR USUÁRIO (DELETE)
+### 👤 DELETAR USUÁRIO
+# @name deleteUser
 DELETE {{baseUrl}}/user/{{userId}}
 Authorization: Bearer {{token}}
 
 ###
-
-### LOGIN DO USUÁRIO (POST)
-POST {{baseUrl}}/auth/login
+### 📦 CRIAR NOVA CÁPSULA
+# @name createCapsule
+POST {{baseUrl}}/capsules
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "email": "johndoe2@example.com",
-  "password": "123456"
+  "message": "Mensagem para o futuro",
+  "recipientEmail": "user@example.com",
+  "attachmentUrl": "https://meusite.com/anexo.png",
+  "sendAt": "2034-02-01T00:00:00.000Z",
+  "status": "pending"
 }
 
+###
+### 📦 LISTAR TODAS AS CÁPSULAS (global - admin/debug)
+# @name listAllCapsules
+GET {{baseUrl}}/capsules
+Authorization: Bearer {{token}}
+
+###
+### 📦 LISTAR CÁPSULAS DO USUÁRIO AUTENTICADO
+# @name listMyCapsules
+GET {{baseUrl}}/capsules/me
+Authorization: Bearer {{token}}
+
+###
+### 📦 BUSCAR CÁPSULA POR ID
+# @name getCapsuleById
+GET {{baseUrl}}/capsules/{{capsuleId}}
+Authorization: Bearer {{token}}
+
+###
+### 📦 ATUALIZAR CÁPSULA
+# @name updateCapsule
+PATCH {{baseUrl}}/capsules/{{capsuleId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "message": "Mensagem atualizada",
+  "recipientEmail": "novo@email.com"
+}
+
+###
+### 📦 DELETAR CÁPSULA
+# @name deleteCapsule
+DELETE {{baseUrl}}/capsules/{{capsuleId}}
+Authorization: Bearer {{token}}
