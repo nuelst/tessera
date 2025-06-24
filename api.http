@@ -1,0 +1,52 @@
+@baseUrl = http://localhost:3000
+@token = add token
+@userId = b5710bd2-d5e4-4a92-9790-2725c074354b
+
+### LISTAR TODOS OS USUÁRIOS (GET)
+GET {{baseUrl}}/user
+
+###
+
+### CRIAR NOVO USUÁRIO (POST)
+POST {{baseUrl}}/user
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "use1r@example.com",
+  "password": "Pw123452!"
+}
+
+###
+
+### BUSCAR USUÁRIO POR ID (GET)
+GET {{baseUrl}}/user/{{userId}}
+
+###
+
+### ATUALIZAR USUÁRIO (PATCH)
+PATCH {{baseUrl}}/user/{{userId}}
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "John Doe Updated"
+}
+
+###
+
+### DELETAR USUÁRIO (DELETE)
+DELETE {{baseUrl}}/user/{{userId}}
+Authorization: Bearer {{token}}
+
+###
+
+### LOGIN DO USUÁRIO (POST)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "johndoe2@example.com",
+  "password": "123456"
+}
+
