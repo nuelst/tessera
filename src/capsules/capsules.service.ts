@@ -80,4 +80,24 @@ export class CapsulesService {
       where: { id: id.toString() },
     });
   }
+
+  async findPendingToSend(now: Date) {
+    return this.prisma.capsule.findMany({
+      where: {
+        status: 'pending',
+        sendAt: {
+          lte: now,
+        },
+      },
+    });
+  }
+
+  async markAsSent(id: string) {
+    return this.prisma.capsule.update({
+      where: { id },
+      data: { status: 'sent' },
+    });
+  }
+
+
 }

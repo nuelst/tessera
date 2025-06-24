@@ -6,6 +6,7 @@ import { CapsulesService } from './capsules.service';
 @Module({
   controllers: [CapsulesController],
   providers: [CapsulesService],
-  imports: [PrismaModule]
+  imports: [PrismaModule],
+  exports: [CapsulesService]
 })
 export class CapsulesModule { }
