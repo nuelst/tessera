@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CapsulesModule } from './capsules/capsules.module';
 import { CapsuleMailerModule } from './mailer/mailer.module';
@@ -13,7 +14,8 @@ import { UserModule } from './user/user.module';
     AuthModule,
     CapsulesModule,
     CapsuleSchedulerModule,
-    CapsuleMailerModule],
+    CapsuleMailerModule,
+    ConfigModule.forRoot()],
   controllers: [],
   providers: [PrismaService],
 })
