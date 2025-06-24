@@ -62,9 +62,9 @@ Authorization: Bearer {{token}}
 
 {
   "message": "Mensagem para o futuro",
-  "recipientEmail": "user@example.com",
+  "recipientEmail": "manuelds@outook.pt",
   "attachmentUrl": "https://meusite.com/anexo.png",
-  "sendAt": "2034-02-01T00:00:00.000Z",
+  "sendAt": "2025-06-24T17:00:00.000Z",
   "status": "pending"
 }
 
