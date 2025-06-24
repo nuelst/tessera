@@ -9,8 +9,8 @@ import { MailerService } from './mailer.service';
         host: 'smtp.example.com',
         port: 587,
         auth: {
-          user: 'dzgn47@gmail.com',
-          pass: '4799DziGn',
+          user: process.env.MAILER_USER,
+          pass: process.env.MAILER_PASS,
         },
       },
       defaults: {
