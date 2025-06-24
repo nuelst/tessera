@@ -2,6 +2,12 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { Prisma, User } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
 
+
+import * as bcrypt from 'bcrypt';
+
+
+const SALT_OR_ROUNDS = 10;
+
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) { }
@@ -14,7 +20,6 @@ export class UsersService {
 
   async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
 
-    console.log("where", where)
     const user = await this.prisma.user.findUnique({
       where: {
         id: where.id
@@ -37,7 +42,14 @@ export class UsersService {
       throw new ConflictException('User already exists!');
     }
 
-    return this.prisma.user.create({ data });
+    const passwordHashed = await bcrypt.hash(data.password, SALT_OR_ROUNDS);
+
+    return this.prisma.user.create({
+      data: {
+        ...data,
+        password: passwordHashed
+      }
+    });
   }
 
   async update(params: { where: Prisma.UserWhereUniqueInput; data: Prisma.UserUpdateInput; }): Promise<User> {
