@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 import { AuthModule } from './auth/auth.module';
 import { CapsulesModule } from './capsules/capsules.module';
 import { CapsuleMailerModule } from './mailer/mailer.module';
@@ -15,8 +17,15 @@ import { UserModule } from './user/user.module';
     CapsulesModule,
     CapsuleSchedulerModule,
     CapsuleMailerModule,
-    ConfigModule.forRoot()],
+    ConfigModule.forRoot(),
+  ],
   controllers: [],
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
-export class AppModule { }
+export class AppModule {}

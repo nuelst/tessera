@@ -1,15 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Request,
+} from '@nestjs/common';
 import { Prisma } from 'generated/prisma';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { CapsulesService } from './capsules.service';
 import { UpdateCapsuleDto } from './dto/update-capsule.dto';
 
-
-
-@UseGuards(AuthGuard)
+// 🔒 TODOS os endpoints deste controller estão protegidos automaticamente
+// por causa do APP_GUARD global no AppModule
 @Controller('capsules')
 export class CapsulesController {
-  constructor(private readonly capsulesService: CapsulesService) { }
+  constructor(private readonly capsulesService: CapsulesService) {}
 
   @Post()
   create(@Body() createCapsuleDto: Prisma.CapsuleCreateInput, @Request() req) {
@@ -35,10 +42,7 @@ export class CapsulesController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateCapsuleDto: UpdateCapsuleDto
-  ) {
+  update(@Param('id') id: string, @Body() updateCapsuleDto: UpdateCapsuleDto) {
     return this.capsulesService.update(id, updateCapsuleDto);
   }
 

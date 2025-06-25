@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:3000
+@baseUrl = http://localhost:3333
 @token = {{authenticate.response.body.access_token}}
 @userId = {{createUser.response.body.id}}
 @capsuleId = {{createCapsule.response.body.id}}

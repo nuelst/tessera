@@ -9,8 +9,8 @@ export class SchedulerService {
 
   constructor(
     private readonly capsulesService: CapsulesService,
-    private readonly mailerService: MailerService
-  ) { }
+    private readonly mailerService: MailerService,
+  ) {}
 
   @Cron('*/5 * * * *') // a cada 5 minutos
   async handleCapsuleDispatch() {
@@ -24,11 +24,13 @@ export class SchedulerService {
           capsule.recipientEmail,
           'Your time capsule has arrived!',
           capsule.message,
-          capsule.attachmentUrl ?? undefined
+          capsule.attachmentUrl ?? undefined,
         );
 
         await this.capsulesService.markAsSent(capsule.id);
-        this.logger.log(`Sent capsule ${capsule.id} to ${capsule.recipientEmail}`);
+        this.logger.log(
+          `Sent capsule ${capsule.id} to ${capsule.recipientEmail}`,
+        );
       } catch (err) {
         this.logger.error(`Failed to send capsule ${capsule.id}`, err);
       }
