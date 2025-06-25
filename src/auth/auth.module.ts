@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from 'src/user/user.module';
@@ -16,11 +15,7 @@ import { jwtConstants } from './constants';
       signOptions: { expiresIn: '180s' },
     }),
   ],
-  providers: [AuthService,],
-  // providers: [AuthService, {
-  //   provide: APP_GUARD,
-  //   useClass: AuthGuard,
-  // },],
+  providers: [AuthService],
   controllers: [AuthController],
   exports: [AuthService],
 })

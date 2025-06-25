@@ -6,7 +6,7 @@ import { UpdateCapsuleDto } from './dto/update-capsule.dto';
 
 
 
-@UseGuards(AuthGuard)
+
 @Controller('capsules')
 export class CapsulesController {
   constructor(private readonly capsulesService: CapsulesService) { }

@@ -1,11 +1,10 @@
-import { ConflictException, Injectable, NotFoundException, UseGuards } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 
 import { Prisma, User } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 
 import * as bcrypt from 'bcrypt';
-import { AuthGuard } from 'src/auth/auth.guard';
 
 
 const SALT_OR_ROUNDS = 10;
@@ -14,8 +13,6 @@ const SALT_OR_ROUNDS = 10;
 export class UsersService {
   constructor(private readonly prisma: PrismaService) { }
 
-
-  @UseGuards(AuthGuard)
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
@@ -73,7 +70,6 @@ export class UsersService {
     });
   }
 
-  @UseGuards(AuthGuard)
   async update(params: { where: Prisma.UserWhereUniqueInput; data: Prisma.UserUpdateInput; }): Promise<User> {
     const { where, data } = params;
 
