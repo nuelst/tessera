@@ -8,4 +8,4 @@ import { SchedulerService } from './scheduler.service';
   imports: [ScheduleModule.forRoot(), CapsulesModule, CapsuleMailerModule],
   providers: [SchedulerService],
 })
-export class CapsuleSchedulerModule { }
+export class CapsuleSchedulerModule {}

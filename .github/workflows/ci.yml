@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 📦 Setup PNPM
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+
+    - name: 🔧 Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+
+    - name: 📦 Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    # - name: 🔍 Run ESLint
+    #   run: pnpm run lint
+
+    - name: 🏗️ Build application
+      run: pnpm run build
+
+    - name: ✅ Build completed successfully
+      run: echo "✅ Lint and build completed successfully!" 

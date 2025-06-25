@@ -17,14 +17,15 @@ import { UserModule } from './user/user.module';
     CapsulesModule,
     CapsuleSchedulerModule,
     CapsuleMailerModule,
-    ConfigModule.forRoot()],
+    ConfigModule.forRoot(),
+  ],
   controllers: [],
   providers: [
     PrismaService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    }
+    },
   ],
 })
-export class AppModule { }
+export class AppModule {}

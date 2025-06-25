@@ -7,6 +7,6 @@ import { CapsulesService } from './capsules.service';
   controllers: [CapsulesController],
   providers: [CapsulesService],
   imports: [PrismaModule],
-  exports: [CapsulesService]
+  exports: [CapsulesService],
 })
-export class CapsulesModule { }
+export class CapsulesModule {}

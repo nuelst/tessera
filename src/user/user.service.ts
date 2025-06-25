@@ -1,30 +1,29 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 import { Prisma, User } from 'generated/prisma';
 import { PrismaService } from 'src/prisma/prisma.service';
 
-
 import * as bcrypt from 'bcrypt';
-
 
 const SALT_OR_ROUNDS = 10;
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-
-
   async findByEmail(email: string): Promise<User> {
-
     const user = await this.prisma.user.findUnique({
       where: {
-        email
-      }
+        email,
+      },
     });
 
     if (!user) {
@@ -35,11 +34,10 @@ export class UsersService {
   }
 
   async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
-
     const user = await this.prisma.user.findUnique({
       where: {
-        id: where.id
-      }
+        id: where.id,
+      },
     });
 
     if (!user) {
@@ -60,19 +58,19 @@ export class UsersService {
 
     const passwordHashed = await bcrypt.hash(data.password, SALT_OR_ROUNDS);
 
-
     return this.prisma.user.create({
       data: {
         ...data,
-        password: passwordHashed
+        password: passwordHashed,
       },
-
     });
   }
 
-  async update(params: { where: Prisma.UserWhereUniqueInput; data: Prisma.UserUpdateInput; }): Promise<User> {
+  async update(params: {
+    where: Prisma.UserWhereUniqueInput;
+    data: Prisma.UserUpdateInput;
+  }): Promise<User> {
     const { where, data } = params;
-
 
     const user = await this.prisma.user.findUnique({ where });
     if (!user) {
@@ -81,7 +79,6 @@ export class UsersService {
 
     return this.prisma.user.update({ where, data });
   }
-
 
   // async findAllCapsulesByUser(userId: string) {
   //   console.log("findAllCapsulesByUser", userId)
@@ -94,9 +91,6 @@ export class UsersService {
   //     }
   //   )
   // }
-
-
-
 
   async remove(where: Prisma.UserWhereUniqueInput): Promise<User> {
     const user = await this.prisma.user.findUnique({ where });

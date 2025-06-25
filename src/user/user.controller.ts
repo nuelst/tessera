@@ -5,17 +5,16 @@ import {
   Get,
   Param,
   Patch,
-  Post
+  Post,
 } from '@nestjs/common';
 
 import { Prisma } from 'generated/prisma';
 import { Public } from 'src/auth/auth.guard';
 import { UsersService } from './user.service';
 
-
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UsersService) { }
+  constructor(private readonly userService: UsersService) {}
 
   @Post()
   @Public()

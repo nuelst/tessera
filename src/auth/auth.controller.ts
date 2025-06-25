@@ -5,26 +5,25 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request
+  Request,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from './public.decorator';
 
 export type UserCredential = {
-  email: string,
-  password: string
-}
+  email: string;
+  password: string;
+};
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
-
+  constructor(private readonly authService: AuthService) {}
 
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: UserCredential) {
-    console.log("[body]", signInDto)
+    console.log('[body]', signInDto);
     return this.authService.signIn(signInDto);
   }
 
@@ -32,7 +31,6 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
-
 
   @Post('logout')
   logout(@Request() req) {

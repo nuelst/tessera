@@ -5,52 +5,44 @@ import { UpdateCapsuleDto } from './dto/update-capsule.dto';
 
 @Injectable()
 export class CapsulesService {
-
   @Inject()
-  private readonly prisma: PrismaService
-
+  private readonly prisma: PrismaService;
 
   async create(data: Prisma.CapsuleCreateInput, id: string) {
     const user = await this.prisma.user.findUnique({
       where: {
-        id
-      }
-    })
+        id,
+      },
+    });
 
     if (!user) {
-      throw new UnauthorizedException("Unauthorized")
+      throw new UnauthorizedException('Unauthorized');
     }
-    const newCapsule = await this.prisma.capsule.create(
-      {
-        data: {
-          ...data,
-          sendAt: new Date(data.sendAt),
-          user: {
-            connect: { id }
-          }
-        }
-
-      }
-    )
-    return newCapsule
+    const newCapsule = await this.prisma.capsule.create({
+      data: {
+        ...data,
+        sendAt: new Date(data.sendAt),
+        user: {
+          connect: { id },
+        },
+      },
+    });
+    return newCapsule;
   }
-
 
   async findAll() {
-    return await this.prisma.capsule.findMany()
+    return await this.prisma.capsule.findMany();
   }
 
-
   async findAllCapsulesByUser(userId: string) {
-
     const user = await this.prisma.user.findUnique({
       where: {
-        id: userId
-      }
-    })
+        id: userId,
+      },
+    });
 
     if (!user) {
-      throw new UnauthorizedException("Unauthorized")
+      throw new UnauthorizedException('Unauthorized');
     }
 
     return this.prisma.capsule.findMany({
@@ -59,8 +51,6 @@ export class CapsulesService {
       },
     });
   }
-
-
 
   findOne(id: string) {
     return this.prisma.capsule.findUnique({
@@ -98,6 +88,4 @@ export class CapsulesService {
       data: { status: 'sent' },
     });
   }
-
-
 }

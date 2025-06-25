@@ -5,7 +5,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
 
-
 @Module({
   imports: [
     UserModule,
@@ -19,4 +18,4 @@ import { jwtConstants } from './constants';
   controllers: [AuthController],
   exports: [AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}
