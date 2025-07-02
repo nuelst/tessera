@@ -8,13 +8,14 @@ import {
   Post,
 } from '@nestjs/common';
 
+import { ApiBearerAuth } from '@nestjs/swagger';
 import { Prisma } from 'generated/prisma';
 import { Public } from 'src/auth/public.decorator';
 import { UsersService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly userService: UsersService) { }
 
   @Post()
   @Public()
@@ -31,7 +32,7 @@ export class UserController {
   findOne(@Param('id') id: string) {
     return this.userService.findOne({ id });
   }
-
+  @ApiBearerAuth()
   @Patch(':id')
   update(
     @Param('id') id: string,

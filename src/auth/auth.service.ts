@@ -8,7 +8,8 @@ import { UsersService } from 'src/user/user.service';
 
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UserCredential } from './auth.controller';
+import { jwtConstants } from './constants';
+import { AuthDto } from './dto/auth.dto';
 
 type AuthResponse = {
   access_token: string;
@@ -22,8 +23,10 @@ export class AuthService {
   @Inject()
   private readonly jwtService: JwtService;
 
-  async signIn(params: UserCredential): Promise<AuthResponse> {
+  async signIn(params: AuthDto): Promise<AuthResponse> {
+
     const existingUser = await this.usersService.findByEmail(params.email);
+
 
     if (!existingUser) throw new NotFoundException('User not found!');
 
@@ -31,13 +34,16 @@ export class AuthService {
       params.password,
       existingUser.password,
     );
+
     if (!passwordMatch) throw new UnauthorizedException('Invalid Credentials');
 
     const { password, ...user } = existingUser;
+    console.log('[user]', jwtConstants.secret);
 
     const payload = { sub: user.id };
+    console.log('[payload]', payload);
     return {
-      user: user,
+      user,
       access_token: await this.jwtService.signAsync(payload),
     };
     // return result
