@@ -24,9 +24,7 @@ export class AuthService {
   private readonly jwtService: JwtService;
 
   async signIn(params: AuthDto): Promise<AuthResponse> {
-
     const existingUser = await this.usersService.findByEmail(params.email);
-
 
     if (!existingUser) throw new NotFoundException('User not found!');
 

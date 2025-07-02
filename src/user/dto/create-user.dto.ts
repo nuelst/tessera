@@ -10,7 +10,6 @@ export class CreateUserDto {
   password: string;
 }
 
-
 // export type UserCreateInput = {
 //   id?: string
 //   name: string

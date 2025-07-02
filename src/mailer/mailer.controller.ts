@@ -8,14 +8,13 @@ import { MailerService } from './mailer.service';
 @ApiTags('mailer')
 @Controller('mailer')
 export class MailerController {
-  constructor(private readonly mailerService: MailerService) { }
+  constructor(private readonly mailerService: MailerService) {}
 
   @Post('test')
   @ApiOperation({ summary: 'Test email sending functionality' })
   @ApiResponse({ status: 200, description: 'Email sent successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async testEmail(@Body() mailerDto: MailerDto) {
-
     return await this.mailerService.sendCapsule(mailerDto);
   }
 
@@ -26,4 +25,4 @@ export class MailerController {
   async sendCapsule(@Body() mailerDto: MailerDto) {
     return await this.mailerService.sendCapsule(mailerDto);
   }
-} 
+}
