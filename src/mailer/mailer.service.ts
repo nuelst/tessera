@@ -1,28 +1,35 @@
 import { MailerService as BaseMailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { MailerDto } from './dto/mailer.dto';
 
 @Injectable()
 export class MailerService {
-  constructor(private readonly mailerService: BaseMailerService) {}
+  constructor(private readonly mailerService: BaseMailerService) { }
 
-  async sendCapsule(
-    to: string,
-    subject: string,
-    message: string,
-    attachmentUrl?: string,
-  ) {
-    return this.mailerService.sendMail({
-      to,
-      subject,
-      html: `<p>${message}</p>`,
-      attachments: attachmentUrl
-        ? [
+  async sendCapsule(mailerDto: MailerDto) {
+
+    try {
+      const result = await this.mailerService.sendMail({
+        to: mailerDto.to,
+        subject: mailerDto.subject,
+        html: `<p>${mailerDto.message}</p>`,
+        attachments: mailerDto.attachmentUrl
+          ? [
             {
               filename: 'attachment.png',
-              path: attachmentUrl,
+              path: mailerDto.attachmentUrl,
             },
           ]
-        : [],
-    });
+          : [],
+      });
+      console.log('[result]', result);
+      return {
+        message: 'Email sent successfully',
+        result
+      };
+    } catch (error) {
+      console.error('[Mailer Error]', error);
+      throw new Error(`Failed to send email: ${error.message}`);
+    }
   }
 }

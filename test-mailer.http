@@ -1,0 +1,24 @@
+### Test Email Sending
+POST http://localhost:3333/mailer/test
+Content-Type: application/json
+
+{
+  "to": "manuelds@outlook.pt",
+  "subject": "Teste de Envio de Email",
+  "message": "Este é um teste para verificar se o sistema de envio de email está funcionando corretamente!",
+  "attachmentUrl": ""
+}
+
+### Check Mailer Configuration
+POST http://localhost:3333/mailer/check-config
+
+### Send Time Capsule Email
+POST http://localhost:3333/mailer/send-capsule
+Content-Type: application/json
+
+{
+  "to": "manuelds@outlook.pt",
+  "subject": "Sua Cápsula do Tempo Chegou!",
+  "message": "Olá! Sua cápsula do tempo programada foi entregue. Esperamos que traga boas lembranças!",
+  "attachmentUrl": ""
+} 
