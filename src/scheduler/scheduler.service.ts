@@ -20,12 +20,12 @@ export class SchedulerService {
 
     for (const capsule of capsules) {
       try {
-        await this.mailerService.sendCapsule(
-          capsule.recipientEmail,
-          'Your time capsule has arrived!',
-          capsule.message,
-          capsule.attachmentUrl ?? undefined,
-        );
+        await this.mailerService.sendCapsule({
+          to: capsule.recipientEmail,
+          subject: 'Your time capsule has arrived!',
+          message: capsule.message,
+          attachmentUrl: capsule.attachmentUrl ?? undefined,
+        });
 
         await this.capsulesService.markAsSent(capsule.id);
         this.logger.log(
