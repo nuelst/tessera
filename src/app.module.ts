@@ -17,7 +17,11 @@ import { UserModule } from './user/user.module';
     CapsulesModule,
     CapsuleSchedulerModule,
     CapsuleMailerModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot(
+      {
+        isGlobal: true,
+      }
+    ),
   ],
   controllers: [],
   providers: [
@@ -28,4 +32,4 @@ import { UserModule } from './user/user.module';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }

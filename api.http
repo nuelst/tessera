@@ -30,6 +30,8 @@ Content-Type: application/json
 ### 👤 LISTAR TODOS OS USUÁRIOS
 # @name listUsers
 GET {{baseUrl}}/user
+Content-Type: application/json
+Authorization: Bearer {{token}}
 
 ###
 ### 👤 BUSCAR USUÁRIO POR ID
