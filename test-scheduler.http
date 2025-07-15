@@ -1,0 +1,49 @@
+@baseUrl = http://localhost:3333
+@token = {{authenticate.response.body.access_token}}
+
+### 🔐 LOGIN DO USUÁRIO
+# @name authenticate
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "other@example.com",
+  "password": "Pw123452!"
+}
+
+### Check Capsules Status Overview
+GET http://localhost:3333/capsules/status/overview
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get Pending Capsules Ready to Send
+GET http://localhost:3333/capsules/status/pending
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Get Failed Capsules
+GET http://localhost:3333/capsules/status/failed
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Manually Trigger Capsule Dispatch
+POST http://localhost:3333/scheduler/dispatch-now
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Manually Retry Failed Capsules
+POST http://localhost:3333/scheduler/retry-failed
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+### Test Create a Capsule (for testing)
+POST http://localhost:3333/capsules
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "message": "Esta é uma cápsula de teste criada há alguns minutos!",
+  "recipientEmail": "manuelds@outlook.pt",
+  "sendAt": "2025-01-07T15:00:00.000Z",
+  "attachmentUrl": ""
+} 
