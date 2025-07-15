@@ -8,7 +8,6 @@ import { UsersService } from 'src/user/user.service';
 
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { jwtConstants } from './constants';
 import { AuthDto } from './dto/auth.dto';
 
 type AuthResponse = {
@@ -36,10 +35,9 @@ export class AuthService {
     if (!passwordMatch) throw new UnauthorizedException('Invalid Credentials');
 
     const { password, ...user } = existingUser;
-    console.log('[user]', jwtConstants.secret);
 
     const payload = { sub: user.id };
-    console.log('[payload]', payload);
+
     return {
       user,
       access_token: await this.jwtService.signAsync(payload),

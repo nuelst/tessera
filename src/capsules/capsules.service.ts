@@ -88,4 +88,28 @@ export class CapsulesService {
       data: { status: 'sent' },
     });
   }
+
+  async markAsFailed(id: string) {
+    return this.prisma.capsule.update({
+      where: { id },
+      data: { status: 'failed' },
+    });
+  }
+
+  async findFailedToRetry() {
+    return this.prisma.capsule.findMany({
+      where: {
+        status: 'failed',
+      },
+      orderBy: {
+        sendAt: 'asc',
+      },
+    });
+  }
+
+  async countByStatus(status: 'pending' | 'sent' | 'failed') {
+    return this.prisma.capsule.count({
+      where: { status },
+    });
+  }
 }
